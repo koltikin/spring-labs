@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CustomerBalance{
+
     private UUID userId;
     private BigDecimal amount;
 
