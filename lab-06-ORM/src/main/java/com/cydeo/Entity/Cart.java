@@ -1,6 +1,5 @@
 package com.cydeo.Entity;
-
-
+import com.cydeo.enums.CartState;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,18 +9,14 @@ import java.math.BigDecimal;
 @Entity
 @NoArgsConstructor
 @Data
-@Table(name = "orders")
-public class Order extends BaseEntity {
+public class Cart extends BaseEntity{
 
-    private BigDecimal paidPrice;
-    private BigDecimal totalPrice;
+    @Enumerated(EnumType.STRING)
+    private CartState cartState;
 
     @ManyToOne
     private Customer customer;
 
-    @OneToOne
-    private Payment payment;
-
-    @OneToOne
-    private Cart cart;
+    @ManyToOne
+    private Discount discount;
 }
