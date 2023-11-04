@@ -18,9 +18,6 @@ public class Customer extends BaseEntity{
     private String lastName;
     private String userName;
 
-    @OneToMany
-    @JoinColumn(name = "customer_id")
-    private List<Address> addresses;
 
 
 }
