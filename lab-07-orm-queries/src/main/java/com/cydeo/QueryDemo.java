@@ -32,6 +32,7 @@ public class QueryDemo implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        System.out.println(addressRepository.getAllAddressesByCustomerId(3L));
-        System.out.println(balanceRepository.getAllByAmountLessThenOrEquals(BigDecimal.valueOf(30)));
+//        System.out.println(balanceRepository.getAllByAmountLessThenOrEquals(BigDecimal.valueOf(30)));
+        System.out.println(customerRepository.getAllByEmail("jrosenau8@dagondesign.com"));
     }
 }
