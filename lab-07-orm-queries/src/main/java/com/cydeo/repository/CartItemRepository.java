@@ -1,10 +1,13 @@
-package com.cydeo.lab07ormqueries.repository;
+package com.cydeo.repository;
 
 
+import com.cydeo.Entity.Address;
+import com.cydeo.Entity.CartItem;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartItemRepository {
+public interface CartItemRepository extends JpaRepository<CartItem,Long> {
 
     //Write a derived query to get count cart items
     //Write a derived query to get cart items for specific cart state

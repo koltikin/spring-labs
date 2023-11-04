@@ -1,5 +1,5 @@
-package com.cydeo.lab07ormqueries;
-import com.cydeo.lab07ormqueries.repository.*;
+package com.cydeo;
+import com.cydeo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -1,9 +1,12 @@
-package com.cydeo.lab07ormqueries.repository;
+package com.cydeo.repository;
 
+import com.cydeo.Entity.Address;
+import com.cydeo.Entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository {
+public interface ProductRepository extends JpaRepository<Product,Long> {
     //Write a derived query to get top 3 product order by price desc
     //Write a derived query to get product by specific name
     //Write a derived query to get product by specific category
