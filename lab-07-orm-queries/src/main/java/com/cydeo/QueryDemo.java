@@ -3,8 +3,6 @@ import com.cydeo.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
 public class QueryDemo implements CommandLineRunner {
 
@@ -16,8 +14,13 @@ public class QueryDemo implements CommandLineRunner {
     private final DiscountRepository discountRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public QueryDemo(AddressRepository addressRepository, BalanceRepository balanceRepository, CartItemRepository cartItemRepository, CartRepository cartRepository, CustomerRepository customerRepository, DiscountRepository discountRepository, OrderRepository orderRepository, ProductRepository productRepository) {
+    public QueryDemo(AddressRepository addressRepository, BalanceRepository balanceRepository,
+                     CartItemRepository cartItemRepository, CartRepository cartRepository,
+                     CustomerRepository customerRepository, DiscountRepository discountRepository,
+                     OrderRepository orderRepository, ProductRepository productRepository,
+                     CategoryRepository categoryRepository) {
         this.addressRepository = addressRepository;
         this.balanceRepository = balanceRepository;
         this.cartItemRepository = cartItemRepository;
@@ -26,6 +29,7 @@ public class QueryDemo implements CommandLineRunner {
         this.discountRepository = discountRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -33,6 +37,7 @@ public class QueryDemo implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        System.out.println(addressRepository.getAllAddressesByCustomerId(3L));
 //        System.out.println(balanceRepository.getAllByAmountLessThenOrEquals(BigDecimal.valueOf(30)));
-        System.out.println(customerRepository.getAllByEmail("jrosenau8@dagondesign.com"));
+//        System.out.println(customerRepository.getAllByEmail("jrosenau8@dagondesign.com"));
+        System.out.println(productRepository.findByCategoryName("Wall Protection"));
     }
 }
