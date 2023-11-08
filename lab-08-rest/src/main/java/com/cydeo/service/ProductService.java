@@ -20,4 +20,6 @@ public interface ProductService {
     int findProductsPriceGreaterThan(BigDecimal price);
 
     List<ProductDTO> findProductListPriceGreaterThanQuantityLessThan(BigDecimal price, int quantity);
+
+    List<ProductDTO> findProductBelongsToCategoryId(long categoryId);
 }

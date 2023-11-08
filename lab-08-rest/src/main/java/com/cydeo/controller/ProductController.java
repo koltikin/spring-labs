@@ -102,5 +102,15 @@ public class ProductController {
                         .build());
     }
 
+    @GetMapping("/category/{id}") // getProducts that belongs to the category which has given id
+    public ResponseEntity<ResponseWrapper> getProductListByCategory(@PathVariable("id") long categoryId){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true).message("Products are successfully retrieved")
+                        .code(HttpStatus.OK.value())
+                        .data(productService.findProductBelongsToCategoryId(categoryId))
+                        .build());
+    }
+
 
 }
