@@ -15,4 +15,5 @@ public interface ProductService {
     List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(List<Long> categoryId, BigDecimal price);
 
     ProductDTO findProductsByName(String productName);
+    List<ProductDTO> findTop3ProductList();
 }

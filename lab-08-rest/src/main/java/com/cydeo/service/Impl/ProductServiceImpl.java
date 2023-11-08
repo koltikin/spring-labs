@@ -48,4 +48,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO findProductsByName(String productName) {
         return mapper.convert(repository.findFirstByName(productName),new ProductDTO());
     }
+
+    @Override
+    public List<ProductDTO> findTop3ProductList() {
+        return repository.findTop3ByOrderByPriceDesc().stream()
+                .map(product -> mapper.convert(product,new ProductDTO()))
+                .collect(Collectors.toList());
+    }
 }

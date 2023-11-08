@@ -70,5 +70,16 @@ public class ProductController {
                         .build());
 
     }
+    @GetMapping("/top3")
+    ResponseEntity<ResponseWrapper> getTop3ProductList(){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Products are successfully retrieved")
+                        .code(202)
+                        .data(productService.findTop3ProductList())
+                        .build()
+        );
+    }
 
 }
