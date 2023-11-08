@@ -91,4 +91,16 @@ public class ProductController {
                         .build());
     }
 
+    @GetMapping("/price/{price}/quantity/{quantity}") // getProducts the remaining quantity less than given quantity and price greater than given price
+    public ResponseEntity<ResponseWrapper> getProductListByPriceAndQuantity(@PathVariable("price") BigDecimal price,
+                                                                            @PathVariable("quantity") int quantity){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true).message("Products are successfully retrieved")
+                        .code(HttpStatus.OK.value())
+                        .data(productService.findProductListPriceGreaterThanQuantityLessThan(price,quantity))
+                        .build());
+    }
+
+
 }

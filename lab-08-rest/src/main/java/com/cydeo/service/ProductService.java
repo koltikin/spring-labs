@@ -18,4 +18,6 @@ public interface ProductService {
     List<ProductDTO> findTop3ProductList();
 
     int findProductsPriceGreaterThan(BigDecimal price);
+
+    List<ProductDTO> findProductListPriceGreaterThanQuantityLessThan(BigDecimal price, int quantity);
 }
