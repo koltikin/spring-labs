@@ -1,7 +1,7 @@
 package com.cydeo.lab08rest.controller;
 
-import com.cydeo.lab08rest.dto.ProductDTO;
-import com.cydeo.lab08rest.dto.ProductRequest;
+import com.cydeo.dto.ProductDTO;
+import com.cydeo.dto.ProductRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
