@@ -43,19 +43,23 @@ public class ProductController {
     }
     @PostMapping
     public ResponseEntity<ResponseWrapper> createProduct(@RequestBody ProductDTO productDTO){
-        return ResponseEntity.status(HttpStatus.CREATED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseWrapper("Product is created",
-                        productService.createProduct(productDTO),HttpStatus.CREATED));
+                        productService.createProduct(productDTO),HttpStatus.OK));
 
     }
 
     @PostMapping("/categoryandprice")// takes list of category id and price, return list of product that category id belong to the given list and price greater than given price.
     public ResponseEntity<ResponseWrapper> getProductListByPriceAndQuantity(@RequestBody Map<String,Object> request){
-        List<Long> categoryIdList = (List<Long>) request.get("categoryIdList");
+        List<Long> categoryList = (List<Long>) request.get("categoryList");
+        System.out.println(categoryList);
         BigDecimal price = new BigDecimal(request.get("price").toString());
+        System.out.println(price);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseWrapper("Products are successfully retrieved",
-                        productService.getProductsByCategoryIdsAndPricelessThen(categoryIdList, price),HttpStatus.OK));
+                .body(ResponseWrapper.builder().message("Products are successfully retrieved")
+                                .success(true)
+                                .data(productService.getProductsByCategoryIdsAndPricelessThen(categoryList, price))
+                                .code(HttpStatus.OK.value()).build());
 
     }
 
@@ -97,7 +101,7 @@ public class ProductController {
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true).message("Products are successfully retrieved")
-                        .code(HttpStatus.OK.value())
+                        .code(200)
                         .data(productService.findProductListPriceGreaterThanQuantityLessThan(price,quantity))
                         .build());
     }

@@ -39,9 +39,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(List<Long> categoryId, BigDecimal price) {
-        return repository.retrieveProductListByCategory(categoryId,price).stream()
+        List<ProductDTO> products = repository.retrieveProductListByCategory(categoryId,price).stream()
                 .map(product->mapper.convert(product,new ProductDTO()))
                 .collect(Collectors.toList());
+        System.out.println(products);
+        return products;
     }
 
     @Override
