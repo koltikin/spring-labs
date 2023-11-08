@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Random;
 
-@Data // should use @Data otherwise does not work;
+    @Data // should use @Data otherwise does not work;
     @Configuration
     @ConfigurationProperties(prefix = "author")// prefix must be lowercase
 
     public class AuthorConfigData {
-        private String Name; // private String AuthorName dot allowed, should be the same after prefix
+        private String Name; // private String AuthorName not allowed, should be the same after prefix
         private String Email;
         private String url;
 

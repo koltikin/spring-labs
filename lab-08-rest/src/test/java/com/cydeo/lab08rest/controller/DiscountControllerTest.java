@@ -1,7 +1,7 @@
 package com.cydeo.lab08rest.controller;
 
-import com.cydeo.lab08rest.dto.DiscountDTO;
-import com.cydeo.lab08rest.enums.DiscountType;
+import com.cydeo.dto.DiscountDTO;
+import com.cydeo.enums.DiscountType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

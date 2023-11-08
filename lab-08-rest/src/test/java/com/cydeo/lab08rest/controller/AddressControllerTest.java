@@ -1,6 +1,6 @@
 package com.cydeo.lab08rest.controller;
 
-import com.cydeo.lab08rest.dto.AddressDTO;
+import com.cydeo.dto.AddressDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
