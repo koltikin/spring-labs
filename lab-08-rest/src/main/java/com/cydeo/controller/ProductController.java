@@ -71,7 +71,7 @@ public class ProductController {
 
     }
     @GetMapping("/top3")
-    ResponseEntity<ResponseWrapper> getTop3ProductList(){
+    public ResponseEntity<ResponseWrapper> getTop3ProductList(){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true)
@@ -80,6 +80,15 @@ public class ProductController {
                         .data(productService.findTop3ProductList())
                         .build()
         );
+    }
+    @GetMapping("/price/{price}") // getProducts count that price greater than given price
+    public ResponseEntity<ResponseWrapper> getProductListByPrice(@PathVariable("price") BigDecimal price){
+       return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true).message("Products are successfully retrieved")
+                        .code(HttpStatus.OK.value())
+                        .data(productService.findProductsPriceGreaterThan(price))
+                        .build());
     }
 
 }

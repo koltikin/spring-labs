@@ -55,4 +55,9 @@ public class ProductServiceImpl implements ProductService {
                 .map(product -> mapper.convert(product,new ProductDTO()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public int findProductsPriceGreaterThan(BigDecimal price) {
+        return repository.countProductByPriceGreaterThan(price);
+    }
 }

@@ -16,4 +16,6 @@ public interface ProductService {
 
     ProductDTO findProductsByName(String productName);
     List<ProductDTO> findTop3ProductList();
+
+    int findProductsPriceGreaterThan(BigDecimal price);
 }
