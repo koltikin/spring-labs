@@ -43,4 +43,9 @@ public class ProductServiceImpl implements ProductService {
                 .map(product->mapper.convert(product,new ProductDTO()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ProductDTO findProductsByName(String productName) {
+        return mapper.convert(repository.findFirstByName(productName),new ProductDTO());
+    }
 }

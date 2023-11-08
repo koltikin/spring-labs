@@ -59,4 +59,16 @@ public class ProductController {
 
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<ResponseWrapper> getProductListByName(@PathVariable("name") String productName){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Products are successfully retrieved")
+                        .code(HttpStatus.OK.value())
+                        .data(productService.findProductsByName(productName))
+                        .build());
+
+    }
+
 }
