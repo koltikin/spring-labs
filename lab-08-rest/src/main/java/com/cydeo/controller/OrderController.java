@@ -14,7 +14,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper> getAddressList(){
+    public ResponseEntity<ResponseWrapper> getAllOrderList(){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true)
@@ -32,6 +32,17 @@ public class OrderController {
                         .message("Orders are successfully retrieved")
                         .data(orderService.updateOrder(orderDTO))
                         .code(202).build()
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createOrder(@RequestBody OrderDTO orderDTO){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders are successfully retrieved")
+                        .data(orderService.createOrder(orderDTO))
+                        .code(201).build()
 
         );
     }
