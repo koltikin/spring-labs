@@ -1,9 +1,11 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.OrderDTO;
+import com.cydeo.enums.PaymentMethod;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,4 +48,16 @@ public class OrderController {
 
         );
     }
+    @GetMapping("/paymentMethod/{paymentMethod}")
+    public ResponseEntity<ResponseWrapper> getAllOrdersByPaymentMethod(@PathVariable("paymentMethod")
+                                                                           PaymentMethod paymentMethod){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders are successfully retrieved")
+                        .data(orderService.findAllOrdersByPaymentMethod(paymentMethod))
+                        .code(HttpStatus.OK.value()).build()
+        );
+    }
+
 }
