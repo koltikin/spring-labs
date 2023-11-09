@@ -60,4 +60,16 @@ public class OrderController {
         );
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<ResponseWrapper> getAllOrdersByCustomerEmail(@PathVariable("email")
+                                                                       String customerEmail){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders are successfully retrieved")
+                        .data(orderService.findAllOrdersByCustomerEmail(customerEmail))
+                        .code(HttpStatus.OK.value()).build()
+        );
+    }
+
 }

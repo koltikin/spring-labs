@@ -14,4 +14,6 @@ public interface OrderService {
     OrderDTO createOrder(OrderDTO orderDTO);
 
     List<OrderDTO> findAllOrdersByPaymentMethod(PaymentMethod paymentMethod);
+
+    List<OrderDTO> findAllOrdersByCustomerEmail(String customerEmail);
 }

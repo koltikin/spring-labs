@@ -19,9 +19,10 @@ public class OrderListImpl implements OrderService {
     private final MapperUtil mapper;
     @Override
     public List<OrderDTO> findAddressList() {
-        return repository.findAll().stream()
-                .map(order -> mapper.convert(order,new OrderDTO()))
-                .collect(Collectors.toList());
+//        return repository.findAll().stream()
+//                .map(order -> mapper.convert(order,new OrderDTO()))
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -39,6 +40,13 @@ public class OrderListImpl implements OrderService {
     @Override
     public List<OrderDTO> findAllOrdersByPaymentMethod(PaymentMethod paymentMethod) {
         return repository.findAllByPayment_PaymentMethod(paymentMethod).stream()
+                .map(order -> mapper.convert(order,new OrderDTO()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDTO> findAllOrdersByCustomerEmail(String customerEmail) {
+        return repository.findAllByCustomer_Email(customerEmail).stream()
                 .map(order -> mapper.convert(order,new OrderDTO()))
                 .collect(Collectors.toList());
     }
