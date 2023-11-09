@@ -18,11 +18,10 @@ public class OrderListImpl implements OrderService {
     private final OrderRepository repository;
     private final MapperUtil mapper;
     @Override
-    public List<OrderDTO> findAddressList() {
-//        return repository.findAll().stream()
-//                .map(order -> mapper.convert(order,new OrderDTO()))
-//                .collect(Collectors.toList());
-        return null;
+    public List<OrderDTO> findAllOrders() {
+        return repository.findAll().stream()
+                .map(order -> mapper.convert(order,new OrderDTO()))
+                .collect(Collectors.toList());
     }
 
     @Override

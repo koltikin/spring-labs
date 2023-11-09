@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    List<OrderDTO> findAddressList();
+    List<OrderDTO> findAllOrders();
 
     OrderDTO updateOrder(OrderDTO orderDTO);
 

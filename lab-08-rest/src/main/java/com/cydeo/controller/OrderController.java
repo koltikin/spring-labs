@@ -21,7 +21,7 @@ public class OrderController {
                 ResponseWrapper.builder()
                         .success(true)
                         .message("Orders are successfully retrieved")
-                        .data(orderService.findAddressList())
+                        .data(orderService.findAllOrders())
                         .code(202).build()
         );
     }
