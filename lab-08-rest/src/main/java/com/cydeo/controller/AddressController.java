@@ -1,13 +1,12 @@
 package com.cydeo.controller;
 
+import com.cydeo.dto.AddressDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +23,16 @@ public class AddressController {
                         .code(HttpStatus.ACCEPTED.value())
                         .data(addressService.findAllAddress()).build()
         );
+    }
 
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createAddress(@RequestBody AddressDTO addressDTO){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("new address created")
+                        .code(HttpStatus.CREATED.value())
+                        .data(addressService.createAddress(addressDTO)).build()
+        );
     }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AddressService {
     List<AddressDTO> findAllAddress();
+
+    AddressDTO createAddress(AddressDTO addressDTO);
 }

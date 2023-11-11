@@ -1,6 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.dto.AddressDTO;
+import com.cydeo.entity.Address;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.AddressRepository;
 import com.cydeo.service.AddressService;
@@ -20,5 +21,11 @@ public class AddressServiceImpl implements AddressService {
         return repository.findAll().stream()
                 .map(address -> mapper.convert(address,new AddressDTO()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public AddressDTO createAddress(AddressDTO addressDTO) {
+        repository.save(mapper.convert(addressDTO,new Address()));
+        return addressDTO;
     }
 }
