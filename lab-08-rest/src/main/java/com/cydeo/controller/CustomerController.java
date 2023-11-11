@@ -15,7 +15,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    ResponseEntity<ResponseWrapper> getAllCustomerList(){
+    public ResponseEntity<ResponseWrapper> getAllCustomerList(){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .message("Customers are successfully retrieved")
@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    ResponseEntity<ResponseWrapper> createCustomer(@RequestBody CustomerDTO customer){
+    public ResponseEntity<ResponseWrapper> createCustomer(@RequestBody CustomerDTO customer){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .message("customer created")
@@ -37,7 +37,7 @@ public class CustomerController {
     }
 
     @PutMapping
-    ResponseEntity<ResponseWrapper> updateCustomer(@RequestBody CustomerDTO customer){
+    public ResponseEntity<ResponseWrapper> updateCustomer(@RequestBody CustomerDTO customer){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .message("customer updated")
@@ -48,7 +48,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{email}")
-    ResponseEntity<ResponseWrapper> updateCustomer(@PathVariable("email") String customerEmail){
+    public ResponseEntity<ResponseWrapper> updateCustomer(@PathVariable("email") String customerEmail){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .message("customer is retrieved")
