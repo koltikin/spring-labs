@@ -32,4 +32,14 @@ public class DiscountController {
                         .data(discountService.createDiscount(discount)).build()
         );
     }
+
+    @PutMapping
+    public ResponseEntity<ResponseWrapper> updateDiscount(@RequestBody DiscountDTO discount){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("Discount updated")
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(discountService.updateDiscount(discount)).build()
+        );
+    }
 }

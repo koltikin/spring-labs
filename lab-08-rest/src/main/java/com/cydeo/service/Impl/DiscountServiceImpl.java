@@ -29,4 +29,10 @@ public class DiscountServiceImpl implements DiscountService {
         repository.save(mapper.convert(discount,new Discount()));
         return discount;
     }
+
+    @Override
+    public DiscountDTO updateDiscount(DiscountDTO discount) {
+        repository.save(mapper.convert(discount,new Discount()));
+        return discount;
+    }
 }

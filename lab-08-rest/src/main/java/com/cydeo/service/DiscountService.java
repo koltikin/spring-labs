@@ -9,4 +9,6 @@ public interface DiscountService {
     List<DiscountDTO> findAllDiscounts();
 
     DiscountDTO createDiscount(DiscountDTO discount);
+
+    DiscountDTO updateDiscount(DiscountDTO discount);
 }
