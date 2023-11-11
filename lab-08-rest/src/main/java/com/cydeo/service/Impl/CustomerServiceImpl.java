@@ -28,4 +28,10 @@ public class CustomerServiceImpl implements CustomerService {
          repository.save(mapper.convert(customer,new Customer()));
          return customer;
     }
+
+    @Override
+    public CustomerDTO updateCustomer(CustomerDTO customer) {
+        repository.save(mapper.convert(customer,new Customer()));
+        return customer;
+    }
 }

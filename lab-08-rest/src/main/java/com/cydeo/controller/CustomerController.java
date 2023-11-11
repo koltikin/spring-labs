@@ -35,4 +35,15 @@ public class CustomerController {
                         .data(customerService.createCustomer(customer)).build()
         );
     }
+
+    @PutMapping
+    ResponseEntity<ResponseWrapper> updateCustomer(@RequestBody CustomerDTO customer){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("customer updated")
+                        .success(true)
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(customerService.updateCustomer(customer)).build()
+        );
+    }
 }

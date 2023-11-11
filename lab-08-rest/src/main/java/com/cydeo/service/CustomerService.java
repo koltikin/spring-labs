@@ -8,4 +8,6 @@ public interface CustomerService {
     List<CustomerDTO> findAllCustomers();
 
     CustomerDTO createCustomer(CustomerDTO customer);
+
+    CustomerDTO updateCustomer(CustomerDTO customer);
 }
