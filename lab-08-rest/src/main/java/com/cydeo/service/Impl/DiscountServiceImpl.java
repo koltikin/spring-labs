@@ -35,4 +35,9 @@ public class DiscountServiceImpl implements DiscountService {
         repository.save(mapper.convert(discount,new Discount()));
         return discount;
     }
+
+    @Override
+    public DiscountDTO findByName(String name) {
+       return mapper.convert(repository.findFirstByName(name),new DiscountDTO());
+    }
 }

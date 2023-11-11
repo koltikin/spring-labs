@@ -42,4 +42,13 @@ public class DiscountController {
                         .data(discountService.updateDiscount(discount)).build()
         );
     }
+    @GetMapping("/{name}")
+    public ResponseEntity<ResponseWrapper> getDiscountByName(@PathVariable("name") String name){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("Discount is successfully retrieved")
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(discountService.findByName(name)).build()
+        );
+    }
 }

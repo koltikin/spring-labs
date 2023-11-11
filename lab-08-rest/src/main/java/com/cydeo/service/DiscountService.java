@@ -11,4 +11,6 @@ public interface DiscountService {
     DiscountDTO createDiscount(DiscountDTO discount);
 
     DiscountDTO updateDiscount(DiscountDTO discount);
+
+    DiscountDTO findByName(String name);
 }
