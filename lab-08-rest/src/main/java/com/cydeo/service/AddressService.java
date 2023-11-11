@@ -10,4 +10,6 @@ public interface AddressService {
     AddressDTO createAddress(AddressDTO addressDTO);
 
     AddressDTO updateAddress(AddressDTO addressDTO);
+
+    List<AddressDTO> findAddressStartsWith(String address);
 }

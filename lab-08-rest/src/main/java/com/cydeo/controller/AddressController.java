@@ -30,7 +30,7 @@ public class AddressController {
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true)
-                        .message("new address created")
+                        .message("Address are successfully retrieved")
                         .code(HttpStatus.CREATED.value())
                         .data(addressService.createAddress(addressDTO)).build()
         );
@@ -43,6 +43,16 @@ public class AddressController {
                         .message("address is updated")
                         .code(HttpStatus.ACCEPTED.value())
                         .data(addressService.updateAddress(addressDTO)).build()
+        );
+    }
+    @GetMapping("/startsWith/{address}")
+    public ResponseEntity<ResponseWrapper> findAddressStartsWith(@PathVariable("address") String address){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Address are successfully retrieved")
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(addressService.findAddressStartsWith(address)).build()
         );
     }
 }

@@ -33,4 +33,12 @@ public class AddressServiceImpl implements AddressService {
         repository.save(mapper.convert(addressDTO,new Address()));
         return addressDTO;
     }
+
+    @Override
+    public List<AddressDTO> findAddressStartsWith(String address) {
+        return repository.findAllByStreetStartingWith(address).stream()
+                .map(address1 ->mapper.convert(address1,new AddressDTO()))
+                .collect(Collectors.toList());
+
+    }
 }
