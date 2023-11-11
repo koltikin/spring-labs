@@ -46,4 +46,15 @@ public class CustomerController {
                         .data(customerService.updateCustomer(customer)).build()
         );
     }
+
+    @PutMapping("/{email}")
+    ResponseEntity<ResponseWrapper> updateCustomer(@PathVariable("email") String customerEmail){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("customer is retrieved")
+                        .success(true)
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(customerService.findCustomerByEmail(customerEmail)).build()
+        );
+    }
 }

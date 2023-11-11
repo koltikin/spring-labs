@@ -10,4 +10,6 @@ public interface CustomerService {
     CustomerDTO createCustomer(CustomerDTO customer);
 
     CustomerDTO updateCustomer(CustomerDTO customer);
+
+    CustomerDTO findCustomerByEmail(String customerEmail);
 }

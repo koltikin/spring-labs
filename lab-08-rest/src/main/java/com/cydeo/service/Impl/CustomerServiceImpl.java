@@ -34,4 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
         repository.save(mapper.convert(customer,new Customer()));
         return customer;
     }
+
+    @Override
+    public CustomerDTO findCustomerByEmail(String customerEmail) {
+      return mapper.convert(repository.retrieveByCustomerEmail(customerEmail),new CustomerDTO());
+    }
 }
