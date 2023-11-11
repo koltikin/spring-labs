@@ -12,5 +12,7 @@ public class DiscountDTO{
     private String name;
     private BigDecimal discount;
     private DiscountType discountType;
+
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 }
