@@ -35,4 +35,14 @@ public class AddressController {
                         .data(addressService.createAddress(addressDTO)).build()
         );
     }
+    @PutMapping
+    public ResponseEntity<ResponseWrapper> updateAddress(@RequestBody AddressDTO addressDTO){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("address is updated")
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(addressService.updateAddress(addressDTO)).build()
+        );
+    }
 }

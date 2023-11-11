@@ -28,4 +28,9 @@ public class AddressServiceImpl implements AddressService {
         repository.save(mapper.convert(addressDTO,new Address()));
         return addressDTO;
     }
+    @Override
+    public AddressDTO updateAddress(AddressDTO addressDTO) {
+        repository.save(mapper.convert(addressDTO,new Address()));
+        return addressDTO;
+    }
 }

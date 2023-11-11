@@ -8,4 +8,6 @@ public interface AddressService {
     List<AddressDTO> findAllAddress();
 
     AddressDTO createAddress(AddressDTO addressDTO);
+
+    AddressDTO updateAddress(AddressDTO addressDTO);
 }
