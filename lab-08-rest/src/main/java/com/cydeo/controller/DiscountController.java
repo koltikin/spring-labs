@@ -1,13 +1,12 @@
 package com.cydeo.controller;
 
+import com.cydeo.dto.DiscountDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.DiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +20,16 @@ public class DiscountController {
                         .message("Discounts are successfully retrieved")
                         .code(HttpStatus.ACCEPTED.value())
                         .data(discountService.findAllDiscounts()).build()
+        );
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseWrapper> createDiscount(@RequestBody DiscountDTO discount){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("Discount created")
+                        .code(HttpStatus.CREATED.value())
+                        .data(discountService.createDiscount(discount)).build()
         );
     }
 }

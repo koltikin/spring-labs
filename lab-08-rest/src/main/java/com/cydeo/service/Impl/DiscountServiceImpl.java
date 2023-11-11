@@ -1,6 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.dto.DiscountDTO;
+import com.cydeo.entity.Discount;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.DiscountRepository;
 import com.cydeo.service.DiscountService;
@@ -22,5 +23,10 @@ public class DiscountServiceImpl implements DiscountService {
         return repository.findAll().stream()
                 .map(discount -> mapper.convert(discount,new DiscountDTO()))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public DiscountDTO createDiscount(DiscountDTO discount) {
+        repository.save(mapper.convert(discount,new Discount()));
+        return discount;
     }
 }
