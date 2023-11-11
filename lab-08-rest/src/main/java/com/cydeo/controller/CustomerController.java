@@ -3,6 +3,7 @@ package com.cydeo.controller;
 import com.cydeo.dto.CustomerDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.CustomerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/customer")
 @RequiredArgsConstructor
+@Tag(name = "Customer", description = "Customer Controller CURD operations")
 public class CustomerController {
     private final CustomerService customerService;
 
