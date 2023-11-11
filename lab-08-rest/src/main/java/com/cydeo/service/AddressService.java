@@ -13,4 +13,6 @@ public interface AddressService {
 
     List<AddressDTO> findAddressStartsWith(String address);
     List<AddressDTO> findByCustomerId(Long customerId);
+
+    List<AddressDTO> findByCustomerIdAndName(Long customerId,String name);
 }

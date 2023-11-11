@@ -48,4 +48,11 @@ public class AddressServiceImpl implements AddressService {
                 .map(address -> mapper.convert(address,new AddressDTO()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<AddressDTO> findByCustomerIdAndName(Long customerId, String name) {
+        return repository.retrieveByCustomerIdAndName(customerId,name).stream()
+                .map(address -> mapper.convert(address,new AddressDTO()))
+                .collect(Collectors.toList());
+    }
 }
