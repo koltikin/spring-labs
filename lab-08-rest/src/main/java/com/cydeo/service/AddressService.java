@@ -12,4 +12,5 @@ public interface AddressService {
     AddressDTO updateAddress(AddressDTO addressDTO);
 
     List<AddressDTO> findAddressStartsWith(String address);
+    List<AddressDTO> findByCustomerId(Long customerId);
 }

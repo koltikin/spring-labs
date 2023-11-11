@@ -55,4 +55,15 @@ public class AddressController {
                         .data(addressService.findAddressStartsWith(address)).build()
         );
     }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<ResponseWrapper> findAddressByCustomerId(@PathVariable("id") Long customerId){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Address are successfully retrieved")
+                        .code(HttpStatus.ACCEPTED.value())
+                        .data(addressService.findByCustomerId(customerId)).build()
+        );
+    }
 }

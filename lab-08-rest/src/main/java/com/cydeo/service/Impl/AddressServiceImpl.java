@@ -41,4 +41,11 @@ public class AddressServiceImpl implements AddressService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<AddressDTO> findByCustomerId(Long customerId) {
+        return repository.retrieveByCustomerId(customerId).stream()
+                .map(address -> mapper.convert(address,new AddressDTO()))
+                .collect(Collectors.toList());
+    }
 }
