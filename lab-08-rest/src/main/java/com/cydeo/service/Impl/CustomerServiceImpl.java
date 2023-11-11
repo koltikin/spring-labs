@@ -1,6 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.dto.CustomerDTO;
+import com.cydeo.entity.Customer;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.CustomerRepository;
 import com.cydeo.service.CustomerService;
@@ -20,5 +21,11 @@ public class CustomerServiceImpl implements CustomerService {
          return  repository.findAll().stream()
                  .map(customer -> mapper.convert(customer,new CustomerDTO()))
                  .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomerDTO createCustomer(CustomerDTO customer) {
+         repository.save(mapper.convert(customer,new Customer()));
+         return customer;
     }
 }

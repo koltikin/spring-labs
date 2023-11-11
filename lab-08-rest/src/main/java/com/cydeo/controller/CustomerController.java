@@ -1,13 +1,12 @@
 package com.cydeo.controller;
 
+import com.cydeo.dto.CustomerDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/customer")
@@ -23,6 +22,17 @@ public class CustomerController {
                         .success(true)
                         .code(HttpStatus.ACCEPTED.value())
                         .data(customerService.findAllCustomers()).build()
+        );
+    }
+
+    @PostMapping
+    ResponseEntity<ResponseWrapper> createCustomer(@RequestBody CustomerDTO customer){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .message("customer created")
+                        .success(true)
+                        .code(HttpStatus.CREATED.value())
+                        .data(customerService.createCustomer(customer)).build()
         );
     }
 }
