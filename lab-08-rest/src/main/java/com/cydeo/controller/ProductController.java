@@ -5,6 +5,7 @@ import com.cydeo.dto.ProductDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,7 +48,7 @@ public class ProductController {
 
     }
     @PostMapping
-    @Operation(description = "Using this end point you can create a product",summary = "Crete product")
+    @Operation(description = "Using this endpoint, you can create a product", summary = "Create product")
     public ResponseEntity<ResponseWrapper> createProduct(@RequestBody ProductDTO productDTO){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseWrapper("Product is created",
