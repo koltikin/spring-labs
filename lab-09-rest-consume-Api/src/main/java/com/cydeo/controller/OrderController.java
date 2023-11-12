@@ -74,4 +74,17 @@ public class OrderController {
         );
     }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ResponseWrapper> getOrderById(@PathVariable("orderId")
+                                                                       Long orderId,
+                                                        @RequestParam("currency") String currency){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders is successfully retrieved")
+                        .data(orderService.findOrderById(orderId,currency))
+                        .code(HttpStatus.OK.value()).build()
+        );
+    }
+
 }

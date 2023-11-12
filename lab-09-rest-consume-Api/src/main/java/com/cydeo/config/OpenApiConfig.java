@@ -21,5 +21,9 @@ public class OpenApiConfig {
                         .description("local server"), new Server().url("https://dev.cydeo.com")
                         .description("dev environment")));
     }
+    @Bean
+    String getString(){
+        return new String();
+    }
 
 }

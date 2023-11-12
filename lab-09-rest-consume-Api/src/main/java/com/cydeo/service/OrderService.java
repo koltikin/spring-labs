@@ -16,4 +16,6 @@ public interface OrderService {
     List<OrderDTO> findAllOrdersByPaymentMethod(PaymentMethod paymentMethod);
 
     List<OrderDTO> findAllOrdersByCustomerEmail(String customerEmail);
+
+    OrderDTO findOrderById(Long orderId,String currency);
 }
