@@ -12,6 +12,7 @@ import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseWrapper findOrderById(Long orderId, Optional<String> currency) {
+    public ResponseEntity<ResponseWrapper> findOrderById(Long orderId, Optional<String> currency) {
         OrderDTO orderDTO = mapper.convert(repository.findById(orderId),new OrderDTO());
         String actualCurrency = currency.orElse("");
         CurrencyDTO currencyDTO = currencyClient.getCurrency(access_key,
@@ -74,22 +75,23 @@ public class OrderServiceImpl implements OrderService {
             if (rate !=null) {
                 orderDTO.setPaidPrice(rate.multiply(orderDTO.getPaidPrice()));
                 orderDTO.setTotalPrice(rate.multiply(orderDTO.getTotalPrice()));
-               return ResponseWrapper.builder()
-                        .success(true)
-                        .message("Orders is successfully retrieved")
-                        .code(HttpStatus.OK.value())
-                        .data(orderDTO).build();
+               return ResponseEntity.ok(ResponseWrapper.builder()
+                       .success(true)
+                       .message("Orders is successfully retrieved")
+                       .code(HttpStatus.OK.value())
+                       .data(orderDTO).build());
             }
-            else return ResponseWrapper.builder()
+            else return ResponseEntity.ok(ResponseWrapper.builder()
                     .success(true)
                     .message("Orders is successfully retrieved")
                     .code(HttpStatus.OK.value())
-                    .data(orderDTO).build();
+                    .data(orderDTO).build());
         }
-        else return ResponseWrapper.builder()
-                .success(false)
-                .message("currency rate for "+currency.get()+" could not be found")
-                .httpStatus(HttpStatus.NOT_FOUND)
-                .timestamp(LocalDateTime.now()).build();
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                ResponseWrapper.builder()
+                        .success(false)
+                        .message("currency rate for "+currency.get()+" could not be found")
+                        .httpStatus(HttpStatus.NOT_FOUND)
+                        .timestamp(LocalDateTime.now()).build());
     }
 }

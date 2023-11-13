@@ -80,8 +80,9 @@ public class OrderController {
     public ResponseEntity<ResponseWrapper> getOrderById(@PathVariable("orderId")
                                                                        Long orderId,
                                                         @RequestParam("currency") Optional<String> currency){
-        return ResponseEntity.ok(
-                orderService.findOrderById(orderId,currency));
+//        return ResponseEntity.ok(
+//                orderService.findOrderById(orderId,currency));
+        return orderService.findOrderById(orderId,currency);
 //                ResponseWrapper.builder()
 //                        .success(true)
 //                        .message("Orders is successfully retrieved")
