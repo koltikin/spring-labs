@@ -50,11 +50,9 @@ public class ProductController {
     }
 
     @PostMapping("/categoryandprice")// takes list of category id and price, return list of product that category id belong to the given list and price greater than given price.
-    public ResponseEntity<ResponseWrapper> getProductListByPriceAndQuantity(@RequestBody Map<String,Object> request){
+    public ResponseEntity<ResponseWrapper> getProductListByPriceAndCategoryIdList(@RequestBody Map<String,Object> request){
         List<Long> categoryList = (List<Long>) request.get("categoryList");
-        System.out.println(categoryList);
         BigDecimal price = new BigDecimal(request.get("price").toString());
-        System.out.println(price);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseWrapper.builder().message("Products are successfully retrieved")
                                 .success(true)

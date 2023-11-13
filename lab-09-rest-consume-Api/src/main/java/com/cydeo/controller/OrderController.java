@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/order")
@@ -77,14 +79,15 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<ResponseWrapper> getOrderById(@PathVariable("orderId")
                                                                        Long orderId,
-                                                        @RequestParam("currency") String currency){
+                                                        @RequestParam("currency") Optional<String> currency){
         return ResponseEntity.ok(
-                ResponseWrapper.builder()
-                        .success(true)
-                        .message("Orders is successfully retrieved")
-                        .data(orderService.findOrderById(orderId,currency))
-                        .code(HttpStatus.OK.value()).build()
-        );
+                orderService.findOrderById(orderId,currency));
+//                ResponseWrapper.builder()
+//                        .success(true)
+//                        .message("Orders is successfully retrieved")
+//                        .data(orderService.findOrderById(orderId,currency))
+//                        .code(HttpStatus.OK.value()).build()
+//        );
     }
 
 }

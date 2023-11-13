@@ -1,24 +1,28 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.FeinClient.CurrencyClient;
+import com.cydeo.dto.CurrencyDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
 import com.cydeo.enums.PaymentMethod;
 import com.cydeo.mapper.MapperUtil;
+import com.cydeo.model.ResponseWrapper;
 import com.cydeo.repository.OrderRepository;
 import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrderListImpl implements OrderService {
+public class OrderServiceImpl implements OrderService {
     private final OrderRepository repository;
     private final MapperUtil mapper;
     private final CurrencyClient currencyClient;
@@ -58,17 +62,34 @@ public class OrderListImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO findOrderById(Long orderId, String currency) {
+    public ResponseWrapper findOrderById(Long orderId, Optional<String> currency) {
         OrderDTO orderDTO = mapper.convert(repository.findById(orderId),new OrderDTO());
-        Map<String,Object> map = currencyClient.currencyConvert(access_key,
-                "USD",currency, BigDecimal.ONE,1);
+        String actualCurrency = currency.orElse("");
+        CurrencyDTO currencyDTO = currencyClient.getCurrency(access_key,
+                    "USD", actualCurrency, 1);
 //        System.out.println(map.get("result") +"=>"+ map.get("result").getClass().getName());
-        if (Boolean.parseBoolean(map.get("success").toString())){
-            BigDecimal rate = new BigDecimal(map.get("result").toString());
-//            System.out.println(rate);
-            orderDTO.setPaidPrice(rate.multiply(orderDTO.getPaidPrice()));
-            orderDTO.setTotalPrice(rate.multiply(orderDTO.getTotalPrice()));
+//        System.out.println(currencyDTO.getQuotes().get("USD"+currency) +"=>"+ currencyDTO.getQuotes().get("USD"+currency).getClass().getName());
+        if (currencyDTO.getSuccess()){
+            BigDecimal rate = currencyDTO.getQuotes().get("USD"+currency);
+            if (rate !=null) {
+                orderDTO.setPaidPrice(rate.multiply(orderDTO.getPaidPrice()));
+                orderDTO.setTotalPrice(rate.multiply(orderDTO.getTotalPrice()));
+               return ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders is successfully retrieved")
+                        .code(HttpStatus.OK.value())
+                        .data(orderDTO).build();
+            }
+            else return ResponseWrapper.builder()
+                    .success(true)
+                    .message("Orders is successfully retrieved")
+                    .code(HttpStatus.OK.value())
+                    .data(orderDTO).build();
         }
-        return orderDTO;
+        else return ResponseWrapper.builder()
+                .success(false)
+                .message("currency rate for "+currency.get()+" could not be found")
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .timestamp(LocalDateTime.now()).build();
     }
 }

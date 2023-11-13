@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,6 +18,8 @@ public class ResponseWrapper {
     private String message;
     private Integer code;
     private Object data;
+    private HttpStatus httpStatus;
+    private LocalDateTime timestamp;
 
     public ResponseWrapper(String message, Object data, HttpStatus httpStatus) {
         this.success = true;
