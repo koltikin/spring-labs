@@ -61,12 +61,10 @@ public class ProductController {
             "return list of product that category id belong to the given list " +
             "and price greater than given price.",summary = "return list of product")
     public ResponseEntity<ResponseWrapper> getProductListByPriceAndQuantity(@RequestBody Map<String,Object> request){
-        List<Long> categoryList = (List<Long>) request.get("categoryList");
-        BigDecimal price = new BigDecimal(request.get("price").toString());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseWrapper.builder().message("Products are successfully retrieved")
                                 .success(true)
-                                .data(productService.getProductsByCategoryIdsAndPricelessThen(categoryList, price))
+                                .data(productService.getProductsByCategoryIdsAndPricelessThen(request))
                                 .code(HttpStatus.OK.value()).build());
 
     }
