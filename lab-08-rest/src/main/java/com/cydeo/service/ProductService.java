@@ -4,6 +4,7 @@ import com.cydeo.dto.ProductDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
     List<ProductDTO> readAllProducts();
@@ -12,7 +13,7 @@ public interface ProductService {
 
     ProductDTO createProduct(ProductDTO productDTO);
 
-    List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(List<Long> categoryId, BigDecimal price);
+    List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(Map<String,Object> request);
 
     ProductDTO findProductsByName(String productName);
     List<ProductDTO> findTop3ProductList();

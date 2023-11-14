@@ -3,6 +3,7 @@ package com.cydeo.controller;
 import com.cydeo.dto.AddressDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.AddressService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/address")
+@Tag(name = "Address", description = "Address Controller CURD operations")
 public class AddressController {
     private final AddressService addressService;
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +39,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(List<Long> categoryId, BigDecimal price) {
-        List<ProductDTO> products = repository.retrieveProductListByCategory(categoryId,price).stream()
+    public List<ProductDTO> getProductsByCategoryIdsAndPricelessThen(Map<String, Object> request) {
+        List<Long> categoryIdList = (List<Long>) request.get("categoryList");
+        BigDecimal price = new BigDecimal(request.get("price").toString());
+        List<ProductDTO> products = repository.retrieveProductListByCategory(categoryIdList,price).stream()
                 .map(product->mapper.convert(product,new ProductDTO()))
                 .collect(Collectors.toList());
         System.out.println(products);

@@ -4,6 +4,7 @@ import com.cydeo.dto.OrderDTO;
 import com.cydeo.enums.PaymentMethod;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.OrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/order")
+@Tag(name = "Order", description = "Order Controller CURD operations")
 public class OrderController {
     private final OrderService orderService;
 

@@ -3,6 +3,7 @@ package com.cydeo.controller;
 import com.cydeo.dto.DiscountDTO;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.service.DiscountService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/discount")
+@Tag(name = "Discount", description = "Discount Controller CURD operations")
 public class DiscountController {
     private final DiscountService discountService;
     @GetMapping
