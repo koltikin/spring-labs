@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Map;
 @Data
 @AllArgsConstructor
@@ -13,5 +12,4 @@ import java.util.Map;
 public class CurrencyDTO {
     private Boolean success;
     private Map<String, BigDecimal> quotes;
-    private LocalDateTime time;
 }

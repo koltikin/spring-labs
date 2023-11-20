@@ -4,7 +4,10 @@ import com.cydeo.FeinClient.CurrencyClient;
 import com.cydeo.dto.CurrencyDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
+import com.cydeo.enums.Currency;
 import com.cydeo.enums.PaymentMethod;
+import com.cydeo.exception.CurrencyInvalidException;
+import com.cydeo.exception.OrderNotFoundException;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.repository.OrderRepository;
@@ -16,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,6 +51,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(OrderDTO orderDTO) {
         repository.save(mapper.convert(orderDTO,new Order()));
         return orderDTO;
+
     }
 
     @Override
@@ -93,5 +99,42 @@ public class OrderServiceImpl implements OrderService {
                         .message("currency rate for "+currency.get()+" could not be found")
                         .httpStatus(HttpStatus.NOT_FOUND)
                         .timestamp(LocalDateTime.now()).build());
+    }
+
+    @Override
+    public OrderDTO findOrderByIdAndCurrency(Long orderId, Optional<String> currency) {
+
+        Order foundOrder = repository.findById(orderId).
+                orElseThrow(()-> new OrderNotFoundException("No Order Found!"));
+
+       OrderDTO orderToReturn = mapper.convert(foundOrder,new OrderDTO());
+
+        BigDecimal currencyRate = getCurrencyRate(currency);
+
+        orderToReturn.setPaidPrice(convertCurrency(foundOrder.getPaidPrice(),currencyRate));
+        orderToReturn.setTotalPrice(convertCurrency(foundOrder.getTotalPrice(),currencyRate));
+
+        return orderToReturn;
+
+    }
+
+    private BigDecimal getCurrencyRate(Optional<String> currency){
+        if (currency.isPresent() && !currency.get().equalsIgnoreCase("USD")){
+            validateCurrency(currency);
+            return currencyClient.getCurrency(access_key, currency.get()).getBody().getQuotes().get("USD"+currency.get());
+        }
+        return BigDecimal.ONE;
+    }
+
+    private BigDecimal convertCurrency(BigDecimal price, BigDecimal rate){
+        return price.multiply(rate).setScale(2, RoundingMode.CEILING);
+    }
+
+    void validateCurrency(Optional<String> currency){
+        List<Currency> currencies = Arrays.stream(Currency.values()).collect(Collectors.toList());
+        boolean validCurrency = currencies.contains(Currency.valueOf(currency.get().toUpperCase()));
+        if (!validCurrency){
+            throw new CurrencyInvalidException("Invalid Currency!");
+        }
     }
 }

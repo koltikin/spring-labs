@@ -2,6 +2,7 @@ package com.cydeo.FeinClient;
 
 import com.cydeo.dto.CurrencyDTO;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,5 +24,9 @@ public interface CurrencyClient {
                           @RequestParam("to") String currency,
                           @RequestParam("amount") BigDecimal amount,
                           @RequestParam("format") int format);
+
+    @GetMapping("/live")
+    ResponseEntity<CurrencyDTO> getCurrency(@RequestParam("access_key") String access_key,
+                               @RequestParam("currencies") String currency);
 
 }

@@ -21,4 +21,6 @@ public interface OrderService {
     List<OrderDTO> findAllOrdersByCustomerEmail(String customerEmail);
 
     ResponseEntity<ResponseWrapper> findOrderById(Long orderId, Optional<String> currency);
+
+    OrderDTO findOrderByIdAndCurrency(Long orderId, Optional<String> currency);
 }
