@@ -17,9 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -108,8 +108,8 @@ public class OrderServiceImpl implements OrderService {
 
         BigDecimal currencyRate = getCurrencyRate(currency);
 
-        orderToReturn.setPaidPrice(convertCurrncy(foundOrder.getPaidPrice(),currencyRate));
-        orderToReturn.setTotalPrice(convertCurrncy(foundOrder.getTotalPrice(),currencyRate));
+        orderToReturn.setPaidPrice(convertCurrency(foundOrder.getPaidPrice(),currencyRate));
+        orderToReturn.setTotalPrice(convertCurrency(foundOrder.getTotalPrice(),currencyRate));
 
         return orderToReturn;
 
@@ -120,5 +120,9 @@ public class OrderServiceImpl implements OrderService {
             return currencyClient.getCurrency(access_key, currency.get()).getBody().getQuotes().get("USD"+currency.get());
         }
         return BigDecimal.ONE;
+    }
+
+    private BigDecimal convertCurrency(BigDecimal price, BigDecimal rate){
+        return price.multiply(rate).setScale(2, RoundingMode.CEILING);
     }
 }
