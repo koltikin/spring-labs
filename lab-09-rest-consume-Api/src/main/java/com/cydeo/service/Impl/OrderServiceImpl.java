@@ -4,7 +4,9 @@ import com.cydeo.FeinClient.CurrencyClient;
 import com.cydeo.dto.CurrencyDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
+import com.cydeo.enums.Currency;
 import com.cydeo.enums.PaymentMethod;
+import com.cydeo.exception.CurrencyInvalidException;
 import com.cydeo.exception.OrderNotFoundException;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.model.ResponseWrapper;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -117,6 +120,7 @@ public class OrderServiceImpl implements OrderService {
 
     private BigDecimal getCurrencyRate(Optional<String> currency){
         if (currency.isPresent() && !currency.get().equalsIgnoreCase("USD")){
+            validateCurrency(currency);
             return currencyClient.getCurrency(access_key, currency.get()).getBody().getQuotes().get("USD"+currency.get());
         }
         return BigDecimal.ONE;
@@ -126,7 +130,11 @@ public class OrderServiceImpl implements OrderService {
         return price.multiply(rate).setScale(2, RoundingMode.CEILING);
     }
 
-    void validateCurrency(String currency){
-
+    void validateCurrency(Optional<String> currency){
+        List<Currency> currencies = Arrays.stream(Currency.values()).collect(Collectors.toList());
+        boolean validCurrency = currencies.contains(Currency.valueOf(currency.get().toUpperCase()));
+        if (!validCurrency){
+            throw new CurrencyInvalidException("Invalid Currency!");
+        }
     }
 }
