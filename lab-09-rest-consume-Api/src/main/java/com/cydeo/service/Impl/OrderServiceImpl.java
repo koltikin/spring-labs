@@ -5,6 +5,7 @@ import com.cydeo.dto.CurrencyDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
 import com.cydeo.enums.PaymentMethod;
+import com.cydeo.exception.OrderNotFoundException;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.model.ResponseWrapper;
 import com.cydeo.repository.OrderRepository;
@@ -46,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(OrderDTO orderDTO) {
         repository.save(mapper.convert(orderDTO,new Order()));
         return orderDTO;
+
     }
 
     @Override
@@ -93,5 +95,13 @@ public class OrderServiceImpl implements OrderService {
                         .message("currency rate for "+currency.get()+" could not be found")
                         .httpStatus(HttpStatus.NOT_FOUND)
                         .timestamp(LocalDateTime.now()).build());
+    }
+
+    @Override
+    public OrderDTO findOrderByIdAndCurrency(Long orderId, Optional<String> currency) {
+
+        Order foundOrder = repository.findById(orderId).
+                orElseThrow(()-> new OrderNotFoundException("No Order Found!"));
+
     }
 }

@@ -76,19 +76,25 @@ public class OrderController {
         );
     }
 
+//    @GetMapping("/{orderId}")
+//    public ResponseEntity<ResponseWrapper> getOrderById(@PathVariable("orderId")
+//                                                                       Long orderId,
+//                                                        @RequestParam(required = false,value = "currency") Optional<String> currency){
+//        return orderService.findOrderById(orderId,currency);
+//
+//    }
+
     @GetMapping("/{orderId}")
     public ResponseEntity<ResponseWrapper> getOrderById(@PathVariable("orderId")
-                                                                       Long orderId,
-                                                        @RequestParam("currency") Optional<String> currency){
-//        return ResponseEntity.ok(
-//                orderService.findOrderById(orderId,currency));
-        return orderService.findOrderById(orderId,currency);
-//                ResponseWrapper.builder()
-//                        .success(true)
-//                        .message("Orders is successfully retrieved")
-//                        .data(orderService.findOrderById(orderId,currency))
-//                        .code(HttpStatus.OK.value()).build()
-//        );
+                                                        Long orderId,
+                                                        @RequestParam(required = false,value = "currency") Optional<String> currency){
+        return ResponseEntity.ok(
+                ResponseWrapper.builder()
+                        .success(true)
+                        .message("Orders is successfully retrieved")
+                        .data(orderService.findOrderByIdAndCurrency(orderId,currency))
+                        .code(HttpStatus.OK.value()).build()
+        );
     }
 
 }
