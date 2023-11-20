@@ -125,4 +125,8 @@ public class OrderServiceImpl implements OrderService {
     private BigDecimal convertCurrency(BigDecimal price, BigDecimal rate){
         return price.multiply(rate).setScale(2, RoundingMode.CEILING);
     }
+
+    void validateCurrency(String currency){
+
+    }
 }
