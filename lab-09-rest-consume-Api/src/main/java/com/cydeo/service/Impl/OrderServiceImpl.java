@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -112,5 +113,12 @@ public class OrderServiceImpl implements OrderService {
 
         return orderToReturn;
 
+    }
+
+    private BigDecimal getCurrencyRate(Optional<String> currency){
+        if (currency.isPresent() && !currency.get().equalsIgnoreCase("USD")){
+            return currencyClient.getCurrency(access_key, currency.get()).getBody().getQuotes().get("USD"+currency.get());
+        }
+        return BigDecimal.ONE;
     }
 }
