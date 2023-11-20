@@ -103,5 +103,14 @@ public class OrderServiceImpl implements OrderService {
         Order foundOrder = repository.findById(orderId).
                 orElseThrow(()-> new OrderNotFoundException("No Order Found!"));
 
+       OrderDTO orderToReturn = mapper.convert(foundOrder,new OrderDTO());
+
+        BigDecimal currencyRate = getCurrencyRate(currency);
+
+        orderToReturn.setPaidPrice(convertCurrncy(foundOrder.getPaidPrice(),currencyRate));
+        orderToReturn.setTotalPrice(convertCurrncy(foundOrder.getTotalPrice(),currencyRate));
+
+        return orderToReturn;
+
     }
 }
