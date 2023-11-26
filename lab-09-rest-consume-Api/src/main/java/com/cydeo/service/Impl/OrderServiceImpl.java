@@ -131,8 +131,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     void validateCurrency(Optional<String> currency){
-        List<Currency> currencies = Arrays.stream(Currency.values()).collect(Collectors.toList());
-        boolean validCurrency = currencies.contains(Currency.valueOf(currency.get().toUpperCase()));
+//        List<String> currencies = Arrays.stream(Currency.values())
+//                .map(eachCurrency-> eachCurrency.value).collect(Collectors.toList());
+//        boolean validCurrency = currencies.contains((currency.get().toUpperCase()));
+
+        boolean validCurrency = Arrays.stream(Currency.values())
+                .map(eachCurrency-> eachCurrency.value).
+                anyMatch(eachCurrency->eachCurrency.equals(currency.get().toUpperCase()));
+
         if (!validCurrency){
             throw new CurrencyInvalidException("Invalid Currency!");
         }
