@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -30,13 +31,14 @@ public class OrderController {
         );
     }
 
-    @PutMapping
-    public ResponseEntity<ResponseWrapper> updateOrder(@RequestBody OrderDTO orderDTO){
+    @PutMapping("{orderId}")
+    public ResponseEntity<ResponseWrapper> updateOrder(@PathVariable("orderId") long orderId,
+                                                       @Valid @RequestBody OrderDTO orderDTO){
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true)
                         .message("Orders are successfully retrieved")
-                        .data(orderService.updateOrder(orderDTO))
+                        .data(orderService.updateOrder(orderId,orderDTO))
                         .code(202).build()
         );
     }
