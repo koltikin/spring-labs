@@ -2,7 +2,7 @@ package com.cydeo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,11 +34,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionWrapper> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        exception.printStackTrace();
+//        exception.printStackTrace();
 
         ExceptionWrapper exceptionWrapper = new ExceptionWrapper("Invalid Input(s)", HttpStatus.BAD_REQUEST);
         List<ValidationException> exceptions = new ArrayList<>();
-        for (ObjectError error : exception.getFieldErrors())
+        for (FieldError error : exception.getFieldErrors()){
+            String fieldName = error.getField();
+            Object rejectedValue = error.getRejectedValue();
+            String message = error.getDefaultMessage();
+            exceptions.add(new ValidationException(fieldName,rejectedValue,message));
+        }
+        exceptionWrapper.setValidationExceptions(exceptions);
+        exceptionWrapper.setErrorCount(exceptions.size());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionWrapper);
     }
 }
