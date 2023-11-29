@@ -1,6 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.FeinClient.CurrencyClient;
+import com.cydeo.dto.CustomerDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
 import com.cydeo.enums.Currency;
@@ -9,6 +10,7 @@ import com.cydeo.exception.CurrencyInvalidException;
 import com.cydeo.exception.OrderNotFoundException;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.OrderRepository;
+import com.cydeo.service.CustomerService;
 import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,10 +31,16 @@ public class OrderServiceImpl implements OrderService {
     private final CurrencyClient currencyClient;
     @Value("${currency-api-access-key}")
     private final String access_key;
+    private final CustomerService customerService;
     @Override
     public List<OrderDTO> findAllOrders() {
         return repository.findAll().stream()
-                .map(order -> mapper.convert(order,new OrderDTO()))
+                .map(order -> {
+                     OrderDTO orderDTO = mapper.convert(order, new OrderDTO());
+//                    CustomerDTO customerDTO = mapper.convert(order.getCustomer(), new CustomerDTO());
+//                    orderDTO.setCustomerDTO(customerDTO);
+                     return orderDTO;
+          })
                 .collect(Collectors.toList());
     }
 
@@ -51,8 +59,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO) {
-        repository.save(mapper.convert(orderDTO,new Order()));
-        return orderDTO;
+
+        CustomerDTO customerDTO = customerService.findById(orderDTO.getCustomer_id_for_create());
+        orderDTO.setCustomer(customerDTO);
+
+        Order savedOrder= repository.save(mapper.convert(orderDTO,new Order()));
+
+        Order foundOrder = repository.findById(savedOrder.getId()).
+                orElseThrow(()-> new OrderNotFoundException("No order was found with id "+ savedOrder.getId()));
+
+        return mapper.convert(foundOrder,new OrderDTO());
 
     }
 

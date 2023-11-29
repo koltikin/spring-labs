@@ -44,14 +44,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper> createOrder(@RequestBody OrderDTO orderDTO){
+    public ResponseEntity<ResponseWrapper> createOrder(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.ok(
                 ResponseWrapper.builder()
                         .success(true)
                         .message("Orders are successfully retrieved")
                         .data(orderService.createOrder(orderDTO))
                         .code(201).build()
-
         );
     }
     @GetMapping("/paymentMethod/{paymentMethod}")

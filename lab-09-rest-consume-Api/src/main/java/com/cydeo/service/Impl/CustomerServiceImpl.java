@@ -2,6 +2,7 @@ package com.cydeo.service.Impl;
 
 import com.cydeo.dto.CustomerDTO;
 import com.cydeo.entity.Customer;
+import com.cydeo.exception.CustomerNotFoundException;
 import com.cydeo.mapper.MapperUtil;
 import com.cydeo.repository.CustomerRepository;
 import com.cydeo.service.CustomerService;
@@ -38,5 +39,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO findCustomerByEmail(String customerEmail) {
       return mapper.convert(repository.retrieveByCustomerEmail(customerEmail),new CustomerDTO());
+    }
+    @Override
+    public CustomerDTO findById(Long customerId) {
+        Customer foundCustomer =repository.findById(customerId).
+                orElseThrow(()-> new CustomerNotFoundException("customer not found"));
+        return mapper.convert(foundCustomer,new CustomerDTO());
     }
 }

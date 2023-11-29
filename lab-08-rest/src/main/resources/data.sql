@@ -7504,8 +7504,8 @@ INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payme
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 518.94, 1772.00, 598, 170, 296);
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 516.70, 828.59, 872, 490, 297);
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 302.78, 431.56, 706, 383, 298);
-INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 745.90, 1134.43, 825, 487, 299);
-INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 2485.29, 2072.98, 598, 177, 300);
+INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 745.90, 1134.43, 1, 487, 299);
+INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 2485.29, 2072.98, 2, 177, 300);
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 2029.94, 1563.88, 631, 474, 301);
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 2443.07, 1808.93, 830, 372, 302);
 INSERT INTO public.orders ( paid_price, total_price, cart_id, customer_id, payment_id) VALUES ( 443.53, 709.73, 892, 149, 303);

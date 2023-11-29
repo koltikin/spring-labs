@@ -11,7 +11,7 @@ public class OrderDTO {
     private Long cartId;
     private BigDecimal paidPrice;
     private BigDecimal totalPrice;
-    private Long customerId;
+    private CustomerDTO customer;
     private Long paymentId;
     private Long id;
 }

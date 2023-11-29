@@ -12,4 +12,6 @@ public interface CustomerService {
     CustomerDTO updateCustomer(CustomerDTO customer);
 
     CustomerDTO findCustomerByEmail(String customerEmail);
+
+    CustomerDTO findById(Long customerId);
 }
