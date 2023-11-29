@@ -1,7 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.FeinClient.CurrencyClient;
-import com.cydeo.dto.CurrencyDTO;
+import com.cydeo.dto.CustomerDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
 import com.cydeo.enums.Currency;
@@ -9,18 +9,15 @@ import com.cydeo.enums.PaymentMethod;
 import com.cydeo.exception.CurrencyInvalidException;
 import com.cydeo.exception.OrderNotFoundException;
 import com.cydeo.mapper.MapperUtil;
-import com.cydeo.model.ResponseWrapper;
 import com.cydeo.repository.OrderRepository;
+import com.cydeo.service.CustomerService;
 import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,23 +31,44 @@ public class OrderServiceImpl implements OrderService {
     private final CurrencyClient currencyClient;
     @Value("${currency-api-access-key}")
     private final String access_key;
+    private final CustomerService customerService;
     @Override
     public List<OrderDTO> findAllOrders() {
         return repository.findAll().stream()
-                .map(order -> mapper.convert(order,new OrderDTO()))
+                .map(order -> {
+                     OrderDTO orderDTO = mapper.convert(order, new OrderDTO());
+//                    CustomerDTO customerDTO = mapper.convert(order.getCustomer(), new CustomerDTO());
+//                    orderDTO.setCustomerDTO(customerDTO);
+                     return orderDTO;
+          })
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OrderDTO updateOrder(OrderDTO orderDTO) {
-        repository.save(mapper.convert(orderDTO, new Order()));
-        return orderDTO;
+    public OrderDTO updateOrder(long orderId,OrderDTO orderDTO) {
+        if (!repository.existsById(orderId)) {
+            throw new OrderNotFoundException("No order was found with id "+ orderId);
+        }
+
+        Order orderToBeUpdated = mapper.convert(orderDTO,new Order());
+        orderToBeUpdated.setId(orderId);
+
+        var updatedOrder = repository.save(orderToBeUpdated);
+        return mapper.convert(updatedOrder, new OrderDTO());
     }
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO) {
-        repository.save(mapper.convert(orderDTO,new Order()));
-        return orderDTO;
+
+        CustomerDTO customerDTO = customerService.findById(orderDTO.getCustomer_id_for_create());
+        orderDTO.setCustomer(customerDTO);
+
+        Order savedOrder= repository.save(mapper.convert(orderDTO,new Order()));
+
+        Order foundOrder = repository.findById(savedOrder.getId()).
+                orElseThrow(()-> new OrderNotFoundException("No order was found with id "+ savedOrder.getId()));
+
+        return mapper.convert(foundOrder,new OrderDTO());
 
     }
 
@@ -69,43 +87,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity<ResponseWrapper> findOrderById(Long orderId, Optional<String> currency) {
-        OrderDTO orderDTO = mapper.convert(repository.findById(orderId),new OrderDTO());
-        String actualCurrency = currency.orElse("");
-        CurrencyDTO currencyDTO = currencyClient.getCurrency(access_key,
-                    "USD", actualCurrency, 1);
-//        System.out.println(map.get("result") +"=>"+ map.get("result").getClass().getName());
-//        System.out.println(currencyDTO.getQuotes().get("USD"+currency) +"=>"+ currencyDTO.getQuotes().get("USD"+currency).getClass().getName());
-        if (currencyDTO.getSuccess()){
-            BigDecimal rate = currencyDTO.getQuotes().get("USD"+currency);
-            if (rate !=null) {
-                orderDTO.setPaidPrice(rate.multiply(orderDTO.getPaidPrice()));
-                orderDTO.setTotalPrice(rate.multiply(orderDTO.getTotalPrice()));
-               return ResponseEntity.ok(ResponseWrapper.builder()
-                       .success(true)
-                       .message("Orders is successfully retrieved")
-                       .code(HttpStatus.OK.value())
-                       .data(orderDTO).build());
-            }
-            else return ResponseEntity.ok(ResponseWrapper.builder()
-                    .success(true)
-                    .message("Orders is successfully retrieved")
-                    .code(HttpStatus.OK.value())
-                    .data(orderDTO).build());
-        }
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                ResponseWrapper.builder()
-                        .success(false)
-                        .message("currency rate for "+currency.get()+" could not be found")
-                        .httpStatus(HttpStatus.NOT_FOUND)
-                        .timestamp(LocalDateTime.now()).build());
-    }
-
-    @Override
     public OrderDTO findOrderByIdAndCurrency(Long orderId, Optional<String> currency) {
 
         Order foundOrder = repository.findById(orderId).
-                orElseThrow(()-> new OrderNotFoundException("No Order Found!"));
+                orElseThrow(()-> new OrderNotFoundException("No order was found with id "+ orderId));
 
        OrderDTO orderToReturn = mapper.convert(foundOrder,new OrderDTO());
 
@@ -131,8 +116,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     void validateCurrency(Optional<String> currency){
-        List<Currency> currencies = Arrays.stream(Currency.values()).collect(Collectors.toList());
-        boolean validCurrency = currencies.contains(Currency.valueOf(currency.get().toUpperCase()));
+//        List<String> currencies = Arrays.stream(Currency.values())
+//                .map(eachCurrency-> eachCurrency.value).collect(Collectors.toList());
+//        boolean validCurrency = currencies.contains((currency.get().toUpperCase()));
+
+        boolean validCurrency = Arrays.stream(Currency.values())
+                .map(eachCurrency-> eachCurrency.value).
+                anyMatch(eachCurrency->eachCurrency.equals(currency.get().toUpperCase()));
+
         if (!validCurrency){
             throw new CurrencyInvalidException("Invalid Currency!");
         }

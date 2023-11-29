@@ -4,6 +4,7 @@ import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
 import com.cydeo.enums.PaymentMethod;
 import com.cydeo.mapper.MapperUtil;
+import com.cydeo.mapper.OrderMapper;
 import com.cydeo.repository.OrderRepository;
 import com.cydeo.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrderListImpl implements OrderService {
+public class OrderServiceImpl implements OrderService {
     private final OrderRepository repository;
+    private final OrderMapper orderMapper;
     private final MapperUtil mapper;
     @Override
     public List<OrderDTO> findAllOrders() {
         return repository.findAll().stream()
-                .map(order -> mapper.convert(order,new OrderDTO()))
+                .map(orderMapper::orderToOrderDTO)
                 .collect(Collectors.toList());
     }
 
