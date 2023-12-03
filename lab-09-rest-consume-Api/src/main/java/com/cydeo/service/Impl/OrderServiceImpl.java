@@ -1,6 +1,7 @@
 package com.cydeo.service.Impl;
 
 import com.cydeo.FeinClient.CurrencyClient;
+import com.cydeo.FeinClient.DemoFienClient;
 import com.cydeo.dto.CustomerDTO;
 import com.cydeo.dto.OrderDTO;
 import com.cydeo.entity.Order;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Value("${currency-api-access-key}")
     private final String access_key;
     private final CustomerService customerService;
+    private final DemoFienClient demoFienClient;
     @Override
     public List<OrderDTO> findAllOrders() {
         return repository.findAll().stream()
@@ -127,5 +130,15 @@ public class OrderServiceImpl implements OrderService {
         if (!validCurrency){
             throw new CurrencyInvalidException("Invalid Currency!");
         }
+    }
+
+    @Override
+    public String getInfo() {
+        String username = "ziya";
+        String password = "123";
+        String credentials = username + ":" + password;
+        String authorizationHeader = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
+
+        return demoFienClient.getInfo(authorizationHeader);
     }
 }

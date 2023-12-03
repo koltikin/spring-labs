@@ -1,5 +1,6 @@
 package com.cydeo.config;
 
+import feign.auth.BasicAuthRequestInterceptor;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
@@ -24,6 +25,10 @@ public class OpenApiConfig {
     @Bean
     String getString(){
         return new String();
+    }
+    @Bean
+    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
+        return new BasicAuthRequestInterceptor("ziya", "123");
     }
 
 }
