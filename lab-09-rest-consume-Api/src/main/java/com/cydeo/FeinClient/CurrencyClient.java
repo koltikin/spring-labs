@@ -28,5 +28,4 @@ public interface CurrencyClient {
     @GetMapping("/live")
     ResponseEntity<CurrencyDTO> getCurrency(@RequestParam("access_key") String access_key,
                                @RequestParam("currencies") String currency);
-
 }

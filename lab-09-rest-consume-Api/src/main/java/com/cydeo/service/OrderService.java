@@ -19,4 +19,6 @@ public interface OrderService {
     List<OrderDTO> findAllOrdersByCustomerEmail(String customerEmail);
 
     OrderDTO findOrderByIdAndCurrency(Long orderId, Optional<String> currency);
+
+    String getInfo();
 }
